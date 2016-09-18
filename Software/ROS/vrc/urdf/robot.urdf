@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+<robot name="robot">
+  <!-- The base cylinder, make it red and transparent so one could see inside -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.06" radius="0.06" />
+      </geometry>
+
+      <origin xyz="0 0 0.047" />
+
+      <!-- When the color is defined with a name it can be referenced by another element without the numbers -->
+      <material name="red_transparent">
+        <color rgba="1.0 0.2 0.2 0.2" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- Define the left and right wheels -->
+  <link name="wheel_left">
+    <visual>
+      <geometry>
+        <cylinder length="0.005" radius="0.035" />
+      </geometry>
+
+      <origin rpy="1.57075 0 0" />
+
+      <material name="black">
+        <color rgba="0.2 0.2 0.2 1" />
+      </material>
+    </visual>
+  </link>
+
+  <link name="wheel_right">
+    <visual>
+      <geometry>
+        <cylinder length="0.005" radius="0.035" />
+      </geometry>
+
+      <origin rpy="1.57075 0 0" />
+
+      <material name="black" />
+    </visual>
+  </link>
+
+  <!-- Define the joints connecting the wheels to the base cylinder -->
+  <joint name="joint_left" type="continuous">
+    <parent link="base_link" />
+    <child link="wheel_left" />
+    <axis xyz="0 -1 0" />
+    <origin xyz="0.0 0.0528 0.035" />
+  </joint>
+
+  <joint name="joint_right" type="continuous">
+    <parent link="base_link" />
+    <child link="wheel_right" />
+    <axis xyz="0 -1 0" />
+    <origin xyz="0.0 -0.0528 0.035" />
+  </joint>
+
+  <!-- Define the linear camera instance -->
+  <link name="linear_camera">
+    <visual>
+      <geometry>
+        <box size="0.01 0.016 0.016" />
+      </geometry>
+
+      <material name="blue">
+        <color rgba="0.2 0.2 1.0 1" />
+      </material>
+    </visual>
+  </link>
+
+  <!-- Position the linear camera -->
+  <joint name="joint_camera" type="fixed">
+    <parent link="base_link" />
+    <child link="linear_camera" />
+    <!-- The cube center represents the position of the sensor here, in V-REP the sensor is at the edge of the cube, this is purely an aesthetical issue -->
+    <origin xyz="0.0425 -0.0075 0.0805" />
+  </joint>
+
+  <!-- Define the front infra-red sensors -->
+  <link name="ir_left">
+    <visual>
+      <geometry>
+        <box size="0.007 0.010 0.005" />
+      </geometry>
+
+      <origin rpy="0 0 0.829" />
+
+      <material name="yellow">
+        <color rgba="1.0 1.0 0.2 1" />
+      </material>
+    </visual>
+  </link>
+
+  <link name="ir_left_center">
+    <visual>
+      <geometry>
+        <box size="0.007 0.010 0.005" />
+      </geometry>
+
+      <origin rpy="0 0 0.1265" />
+
+      <material name="yellow" />
+    </visual>
+  </link>
+
+  <link name="ir_right_center">
+    <visual>
+      <geometry>
+        <box size="0.007 0.010 0.005" />
+      </geometry>
+
+      <origin rpy="0 0 -0.1265" />
+
+      <material name="yellow" />
+    </visual>
+  </link>
+
+  <link name="ir_right">
+    <visual>
+      <geometry>
+        <box size="0.007 0.010 0.005" />
+      </geometry>
+
+      <origin rpy="0 0 -0.829" />
+
+      <material name="yellow" />
+    </visual>
+  </link>
+
+  <!-- Position the front infra-red sensors -->
+  <joint name="joint_ir_left" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_left" />
+    <origin xyz="0.04554 0.04173 0.0345" />
+  </joint>
+
+  <joint name="joint_ir_left_center" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_left_center" />
+    <origin xyz="0.05891 0.01857 0.0345" />
+  </joint>
+
+  <joint name="joint_ir_right_center" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_right_center" />
+    <origin xyz="0.05891 -0.01857 0.0345" />
+  </joint>
+
+  <joint name="joint_ir_right" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_right" />
+    <origin xyz="0.04554 -0.04173 0.0345" />
+  </joint>
+
+  <!-- Define the infra-red sensors under the robot -->
+  <link name="ir_left_under">
+    <visual>
+      <geometry>
+        <box size="0.004 0.007 0.0025" />
+      </geometry>
+
+      <origin rpy="0 0 0.3054" />
+
+      <material name="green">
+        <color rgba="0.2 1.0 0.2 1" />
+      </material>
+    </visual>
+  </link>
+
+  <link name="ir_right_under">
+    <visual>
+      <geometry>
+        <box size="0.004 0.007 0.0025" />
+      </geometry>
+
+      <origin rpy="0 0 -0.3054" />
+
+      <material name="green" />
+    </visual>
+  </link>
+
+  <!-- Position the infra-red sensors under the robot -->
+  <joint name="joint_ir_left_under" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_left_under" />
+    <origin xyz="0.052140 0.016440 0.0137" />
+  </joint>
+
+  <joint name="joint_ir_right_under" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_right_under" />
+    <origin xyz="0.052140 -0.016440 0.0137" />
+  </joint>
+
+  <!-- Define the scanner representing the ir sensors -->
+  <link name="ir_scan">
+    <visual>
+      <geometry>
+        <cylinder length="0.006" radius="0.006" />
+      </geometry>
+
+      <material name="green" />
+    </visual>
+  </link>
+
+  <joint name="joint_ir_scan" type="fixed">
+    <parent link="base_link" />
+    <child link="ir_scan" />
+    <origin xyz="0.0 0.0 0.0345" />
+  </joint>
+
+</robot>
