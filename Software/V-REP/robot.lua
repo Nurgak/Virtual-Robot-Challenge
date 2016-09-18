@@ -25,7 +25,7 @@ if (sim_call_type == sim_childscriptcall_initialization) then
     -- Offset (radius) between the center of the body and the front IR sensors
     ir_offset_from_center = 0.06176
     -- Maximum IR sensing distance
-    local max_ir_value = 0.2
+    max_ir_value = 0.2
 
     -- Publish the simulation time
     clock_pub = simExtRosInterface_advertise('/clock', 'rosgraph_msgs/Clock')
