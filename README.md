@@ -31,7 +31,7 @@ The simulation is meant to be run on **Ubuntu 14.04** with **ROS Indigo**, later
 1. Download and install the latest [V-REP EDU](http://www.coppeliarobotics.com/downloads.html), define the `VREP_ROOT` environment variable as the path to V-REP
 
    ```
-   export VREP_ROOT=~/path/to/v_rep/folder
+   export VREP_ROOT=<VREP path>
    ```
 
 2. Install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu)
@@ -61,7 +61,7 @@ The simulation is meant to be run on **Ubuntu 14.04** with **ROS Indigo**, later
 5. Copy the ROS interface package contents from V-REP install folder to ROS workspace:
 
    ```
-   $ cp -r ~/path/to/v_rep/folder/programming/ros_packages/v_repExtRosInterface ~/catkin_ws/src
+   $ cp -r <VREP path>/programming/ros_packages/v_repExtRosInterface ~/catkin_ws/src
    ```
 
 7. Clone this repository to somewhere and copy the contents the ROS package to the workspace:
@@ -82,7 +82,7 @@ The simulation is meant to be run on **Ubuntu 14.04** with **ROS Indigo**, later
 9. Copy the ROS interface plugin to the V-REP root folder
 
    ```
-   $ cp ~/catkin_ws/devel/lib/libv_repExtRosInterface.so ~/path/to/v_rep/folder
+   $ cp ~/catkin_ws/devel/lib/libv_repExtRosInterface.so <VREP path>
    ```
 
 10. Source the setup file, **this needs to be done in every new terminal**:
@@ -121,7 +121,7 @@ To goal is to follow a line. Very basic approach, however one can always optimiz
 2. From another terminal run V-REP, always start V-REP after ROS core
 
    ```
-   $ sh ~/path/to/v_rep/folder/vrep.sh
+   $ sh <VREP path>/vrep.sh
    ```
 
 3. In V-REP open the `arena.ttt` from the `/Simulation` folder
@@ -143,7 +143,7 @@ To goal is to follow a line. Very basic approach, however one can always optimiz
 
 The robot should start following the line marked on the floor.
 
-![Image of the robot following a line](Media/line_follower.png)
+![Image of the robot following a line](Media/line_follower.gif)
 
 One can imagine using the front facing sensors to do obstacle avoidance, the linear camera to find the beacons... To program new behaviours simply copy and rename the `line_follower.py` file, change it accordingly and run it same way with `rosrun`.
 
