@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Use the clock time coming from V-REP, otherwise some generated topics will be outdated as V-REP time is different from the normal timestamp -->
+    <param name="use_sim_time" value="true" />
+
+    <!-- Select the robot Universal Robotic Description Format (URDF) model -->
+    <param name="robot_description" textfile="$(find vrc)/urdf/robot.urdf" />
+
+    <!-- This creates the JointStates from the URDF model and publishes the transform topics (TF) so that RVIZ would know where is what on the robot (wheels, sensors...) -->
+    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
+
+    <!-- Virtual representation in RVIZ, with the configuration file -->
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find vrc)/rviz/settings.rviz" />
+
+    <!-- Transform the point cloud to laser scan -->
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan_node" output="screen" >
+        <remap from="cloud_in" to="/pointcloud" />
+        <param name="target_frame" value="ir_point_cloud" />
+        <param name="min_height" value="-1.0" />
+        <param name="max_height" value="1.0" />
+        <param name="range_min" value="0.0" />
+        <!-- 0.2 plus the offset from the center of the robot (0.06176) -->
+        <param name="range_max" value="0.26176" />
+    </node>
+
+    <!-- Mapping node, needs laser scan -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping">
+        <!-- Since the odometry is perfect in simulation set the motion model noise to zero -->
+        <param name="minimumScore" value="10000"/>
+        <param name="srr" value="0.0" />
+        <param name="srt" value="0.0" />
+        <param name="str" value="0.0" />
+        <param name="stt" value="0.0" />
+        <param name="particles" value="1" />
+
+        <!-- Define map size, 4 by 4 meters -->
+        <param name="xmin" value="-2" />
+        <param name="xmax" value="2" />
+        <param name="ymin" value="-2" />
+        <param name="ymax" value="2" />
+        <!-- Define map resolution, 1 centimeter -->
+        <param name="delta" value="0.01" />
+
+        <!-- Map areas where the sensor returns the maximum value as accessible -->
+        <!-- 0.2 plus the offset from the center of the robot (0.06176) -->
+        <param name="maxRange" value="0.26176" />
+        <!-- Always maxUrange < maxRange -->
+        <param name="maxUrange" value="0.26175" />
+
+        <!-- Update map at 10Hz -->
+        <param name="map_update_interval" value="0.1" />
+        <!-- Update after every moved centimeter -->
+        <param name="linearUpdate" value="0.01" />
+        <!-- Update after every 0.01 radian turn -->
+        <param name="angularUpdate" value="0.01" />
+    </node>
+</launch>

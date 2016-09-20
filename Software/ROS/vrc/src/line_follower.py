@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """Line follower
 
 ROS node for a line follower robot running in simulation using V-REP.
@@ -7,34 +6,18 @@ ROS node for a line follower robot running in simulation using V-REP.
 
 import rospy
 import message_filters
-from sensor_msgs.msg import Image, Range, Illuminance
+from sensor_msgs.msg import Illuminance
 from geometry_msgs.msg import Twist, Vector3
-import numpy as np
 
 __author__ = "Karl Kangur"
 __email__ = "karl.kangur@gmail.com"
 
 
-def process_linear_camera(image):
-    """Process linear camera data."""
-    # 3 pixels per camera
-    pixels = np.fromstring(image.data, np.uint8)
-    # Do something with the linear camera data
-
-
-def process_ir_front(ir_left, ir_left_center, ir_right_center, ir_right):
-    """Process front IR sensors."""
-    # Do something with the front IR sensor data here
-    ir_left_distance = ir_left.range
-    ir_right_center_distance = ir_left_center.range
-    ir_right_center_distance = ir_right_center.range
-    ir_right_distance = ir_right.range
-
-
 def process_ir_under(ir_left, ir_right):
-    """Process IR sensors under the robot."""
+    """Follow the line using the IR sensors under the robot."""
     # Define the light threshold, 255 is light, 0 is dark
     light_threshold = 127
+
     # Define the speed constants
     speed_fast = 0.1
     speed_slow = 0.01
@@ -60,81 +43,57 @@ def process_ir_under(ir_left, ir_right):
         v_linear = speed_fast
         v_angular = speed_stop
 
-    # Build the Twist message sent to the robot
+    # Never publish after the node has been shut down
+    if not rospy.is_shutdown():
+        # Actually publish the message
+        set_speed(v_linear, v_angular)
+
+
+def set_speed(linear, angular):
+    # Set robot speed with a Twist topic
     msg = Twist()
     msg.linear = Vector3()
-    msg.linear.x = v_linear
+    msg.linear.x = linear
     msg.linear.y = 0.0
     msg.linear.z = 0.0
     msg.angular = Vector3()
     msg.angular.x = 0.0
     msg.angular.y = 0.0
-    msg.angular.z = v_angular
+    msg.angular.z = angular
 
-    # Never publish after the node has been shut down
-    if not rospy.is_shutdown():
-        # Actually publish the message
-        pub.publish(msg)
+    # Actually publish the topic
+    pub.publish(msg)
 
 
 def stop_robot():
     rospy.loginfo("Stopping robot")
-
-    msg = Twist()
-    msg.linear = Vector3()
-    msg.linear.x = 0.0
-    msg.linear.y = 0.0
-    msg.linear.z = 0.0
-    msg.angular = Vector3()
-    msg.angular.x = 0.0
-    msg.angular.y = 0.0
-    msg.angular.z = 0.0
-
-    # Actually publish the message
-    pub.publish(msg)
+    set_speed(0, 0)
 
 
 def initialize():
-    """Initialize the line follower node."""
+    """Initialize the sample node."""
     global pub
 
     # Provide a name for the node
     rospy.init_node("line_follower", anonymous=True)
 
-    # Give some feedback
-    rospy.loginfo("Line follower initialization")
+    # Give some feedback in the terminal
+    rospy.loginfo("Line follower node initialization")
 
-    # Subscribe and synchronise to infra-red sensors in front of the robot
-    ir_front_left = message_filters.Subscriber("ir_front_left", Range)
-    ir_front_right = message_filters.Subscriber("ir_front_right", Range)
-    ir_front_left_center = message_filters.Subscriber(
-        "ir_front_left_center", Range)
-    ir_front_right_center = message_filters.Subscriber(
-        "ir_front_right_center", Range)
-    # Wait for all topics to arrive before calling the callback
-    ts_ir_front = message_filters.TimeSynchronizer([
-        ir_front_left,
-        ir_front_left_center,
-        ir_front_right_center,
-        ir_front_right], 1)
-    ts_ir_front.registerCallback(process_ir_front)
-
-    # Subscribe and synchronise to infra-red sensors under the robot
+    # Subscribe to and synchronise the infra-red sensors under the robot
     ir_under_left = message_filters.Subscriber("ir_under_left", Illuminance)
     ir_under_right = message_filters.Subscriber("ir_under_right", Illuminance)
     # Wait for all topics to arrive before calling the callback
     ts_ir_under = message_filters.TimeSynchronizer([
         ir_under_left,
         ir_under_right], 1)
+    # Register the callback to be called when all sensor readings are ready
     ts_ir_under.registerCallback(process_ir_under)
 
-    # Subscribe to the linear camera data
-    rospy.Subscriber("linear_camera", Image, process_linear_camera)
-
-    # Publish the linear and angular velocities
+    # Publish the linear and angular velocities so the robot can move
     pub = rospy.Publisher("cmd_vel", Twist, queue_size=1)
 
-    # When the node is stopped also stop the robot
+    # Register the callback for when the node is stopped
     rospy.on_shutdown(stop_robot)
 
     # spin() keeps python from exiting until this node is stopped

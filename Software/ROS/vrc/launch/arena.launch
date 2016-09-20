@@ -6,6 +6,6 @@
     <!-- Select the robot Universal Robotic Description Format (URDF) model -->
     <param name="robot_description" textfile="$(find vrc)/urdf/robot.urdf" />
 
-    <!-- This transforms the JointStates from V-REP to TF so that RVIZ would know where is what on the robot (wheels, cameras...) -->
+    <!-- This creates the JointStates from the URDF model and publishes the transform topics (TF) so that RVIZ would know where is what on the robot (wheels, sensors...) -->
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
 </launch>

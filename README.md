@@ -104,9 +104,9 @@ The code actuating the robot motors and publishing its sensor data is written in
 
 ![Image of the robot node with a script icon besides it](Media/lua_script.png)
 
-The robot behaviour is dictated by the Python script stored in `~/catkin_ws/src/vrc/src/line_follower.py`.
+The robot behaviour is dictated by the Python scripts stored in `~/catkin_ws/src/vrc/src/`. The `sample.py` script shows how to process the data from all the different sensors on the robot.
 
-The launch file is used to start different nodes at the same time, it is stored in `~/catkin_ws/src/vrc/launch/arena.launch`, think of it as a shortcut.
+The launch files are used to start different nodes at the same time, they are stored in `~/catkin_ws/src/vrc/launch/`, think of them as shortcuts.
 
 ## Follow the line
 
@@ -132,13 +132,13 @@ To goal is to follow a line. Very basic approach, however one can always optimiz
 5. In a third terminal launch the `arena.launch` file which will starts some nodes
 
    ```
-   roslaunch vrc arena.launch
+   $ roslaunch vrc arena.launch
    ```
 
 6. Finally in a fourth terminal launch the line follower program
 
    ```
-   rosrun vrc line_follower.py
+   $ rosrun vrc line_follower.py
    ```
 
 The robot should start following the line marked on the floor.
@@ -157,7 +157,20 @@ Stop the line follower script (ctrl+c) and run:
 
     $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
-The terminal must be in focus for the commands to be executed.
+The terminal must be in focus for the commands to be executed.\
+
+## Exploration and mapping
+
+ROS can do mapping using the robot sensors and its position. An example can be launched with
+
+    $ roslaunch vrc mapping.launch
+    $ rosrun vrc explorer.py
+
+The launch file runs the `gmapping` and the RVIZ visualisation nodes. Accessible areas are marked in white and inaccessbile areas are marked in black.
+
+The `explorer` node makes the robot go around the arena and avoid obstacles, whenever it encounters an obstacle it will turn on itself for a random amount of time and continue.
+
+![Image of the robot mapping in RVIZ](Media/mapping.gif)
 
 ## Physical robot
 
