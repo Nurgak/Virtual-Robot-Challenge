@@ -129,7 +129,7 @@ To goal is to follow a line. Very basic approach, however one can always optimiz
 
    ![V-REP play button](Media/play.png)
 
-5. In a third terminal launch the arena launch file which will starts some nodes including a virtual scene representing how the robot percieves the world
+5. In a third terminal launch the `arena.launch` file which will starts some nodes
 
    ```
    roslaunch vrc arena.launch

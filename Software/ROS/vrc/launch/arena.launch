@@ -8,7 +8,4 @@
 
     <!-- This transforms the JointStates from V-REP to TF so that RVIZ would know where is what on the robot (wheels, cameras...) -->
     <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" />
-
-    <!-- Virtual representation in RVIZ, with the configuration file -->
-    <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find vrc)/rviz/settings.rviz" />
 </launch>
