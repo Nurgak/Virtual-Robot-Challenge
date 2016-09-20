@@ -145,8 +145,6 @@ The robot should start following the line marked on the floor.
 
 ![Image of the robot following a line](Media/line_follower.gif)
 
-One can imagine using the front facing sensors to do obstacle avoidance, the linear camera to find the beacons... To program new behaviours simply copy and rename the `line_follower.py` file, change it accordingly and run it same way with `rosrun`.
-
 ## Teleoperation
 
 One can remotely operate the robot using the keyboard using the `teleop_twist_keyboard` package:
