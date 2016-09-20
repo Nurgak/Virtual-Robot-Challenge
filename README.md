@@ -155,7 +155,7 @@ Stop the line follower script (ctrl+c) and run:
 
     $ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 
-The terminal must be in focus for the commands to be executed.\
+The terminal must be in focus for the commands to be executed.
 
 ## Exploration and mapping
 
