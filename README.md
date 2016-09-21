@@ -159,9 +159,10 @@ The terminal must be in focus for the commands to be executed.
 
 ## Exploration and mapping
 
-ROS can do mapping using the robot sensors and its position. First make sure the `slam-gmapping` package is installed:
+ROS can do mapping using the robot sensors and its position. First make sure the [`slam_gmapping`](http://wiki.ros.org/slam_gmapping) and [`pointcloud_to_laserscan`](http://wiki.ros.org/pointcloud_to_laserscan) packages are installed:
 
     $ sudo apt-get install ros-indigo-slam-gmapping
+    $ sudo apt-get install ros-indigo-pointcloud-to-laserscan
 
 And launch the mapping scene with:
 
