@@ -159,7 +159,11 @@ The terminal must be in focus for the commands to be executed.
 
 ## Exploration and mapping
 
-ROS can do mapping using the robot sensors and its position. An example can be launched with
+ROS can do mapping using the robot sensors and its position. First make sure the `slam-gmapping` package is installed:
+
+    $ sudo apt-get install ros-indigo-slam-gmapping
+
+And launch the mapping scene with:
 
     $ roslaunch vrc mapping.launch
     $ rosrun vrc explorer.py
