@@ -27,15 +27,15 @@ def process_ir_under(ir_left, ir_right):
     # Define the robot behavior depending on sensor readings
     if (ir_left.illuminance < light_threshold and
             ir_right.illuminance < light_threshold):
-        # If both sensors see the line be cautious
+        # If both sensors see the line be cautious and move slowly
         v_linear = speed_slow
         v_angular = speed_stop
     elif ir_right.illuminance < light_threshold:
-        # Line on the left, rotate counter-clockwise
+        # Right sensor detects line, rotate clockwise
         v_linear = speed_slow
         v_angular = speed_turn
     elif ir_left.illuminance < light_threshold:
-        # Line on the right, rotate clockwise
+        # Left sensor detects line, rotate counter-clockwise
         v_linear = speed_slow
         v_angular = -speed_turn
     else:
