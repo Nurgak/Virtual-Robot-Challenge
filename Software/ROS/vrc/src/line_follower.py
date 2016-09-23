@@ -30,11 +30,11 @@ def process_ir_under(ir_left, ir_right):
         # If both sensors see the line be cautious
         v_linear = speed_slow
         v_angular = speed_stop
-    elif ir_left.illuminance < light_threshold:
+    elif ir_right.illuminance < light_threshold:
         # Line on the left, rotate counter-clockwise
         v_linear = speed_slow
         v_angular = speed_turn
-    elif ir_right.illuminance < light_threshold:
+    elif ir_left.illuminance < light_threshold:
         # Line on the right, rotate clockwise
         v_linear = speed_slow
         v_angular = -speed_turn
