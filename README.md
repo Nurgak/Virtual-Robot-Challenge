@@ -26,7 +26,7 @@ The robot is based on the [Robopoly demonstration robot](https://github.com/Robo
 
 The whole installation process has been fully tested on **Ubuntu 14.04/ROS Indigo** as well as **Ubuntu 16.04/ROS Kinetic**. One can use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) if such a computer is not available, however it will slow down the simulation speed.
 
-The installation steps describe the process for ROS Indigo, for ROS Kinetic one needs to change `indigo` to `kinetic` everywhere, the rest of the process stays the same.
+The installation steps describe the process for ROS Indigo, for ROS Kinetic one needs to change `indigo` to `kinetic` whenever encountered, the rest of the process stays the same.
 
 Code-wise there is no difference between Indigo or Kinetic, however generally speaking not everything in the ROS world is yet compatible with the newer Kinetic release. For the purposes of this tutorial the recommendation is to use Indigo with Ubuntu 14.04 and Kinetic with Ubuntu 16.04 and above.
 
