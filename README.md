@@ -24,7 +24,11 @@ The robot is based on the [Robopoly demonstration robot](https://github.com/Robo
 
 ## Software
 
-The simulation is meant to be run on **Ubuntu 14.04** with **ROS Indigo**, later versions have not been tested. One can use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) if such a computer is not available, however it will slow down the simulation speed.
+The whole installation process has been fully tested on **Ubuntu 14.04/ROS Indigo** as well as **Ubuntu 16.04/ROS Kinetic**. One can use [VirtualBox](https://www.virtualbox.org/wiki/Downloads) if such a computer is not available, however it will slow down the simulation speed.
+
+The installation steps describe the process for ROS Indigo, for ROS Kinetic one needs to change `indigo` to `kinetic` everywhere, the rest of the process stays the same.
+
+Code-wise there is no difference between Indigo or Kinetic, however generally speaking not everything in the ROS world is yet compatible with the newer Kinetic release. For the purposes of this tutorial the recommendation is to use Indigo with Ubuntu 14.04 and Kinetic with Ubuntu 16.04 and above.
 
 ### Installation
 
@@ -34,7 +38,7 @@ The simulation is meant to be run on **Ubuntu 14.04** with **ROS Indigo**, later
    export VREP_ROOT=<VREP path>
    ```
 
-2. Install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu)
+2. Install [ROS Indigo](http://wiki.ros.org/indigo/Installation/Ubuntu) or [ROS Kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)
 
    ```
    $ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
@@ -104,7 +108,7 @@ The code actuating the robot motors and publishing its sensor data is written in
 
 ![Image of the robot node with a script icon besides it](Media/lua_script.png)
 
-The robot behaviour is dictated by the Python scripts stored in `~/catkin_ws/src/vrc/src/`. The `sample.py` script shows how to process the data from all the different sensors on the robot.
+The robot behavior is dictated by the Python scripts stored in `~/catkin_ws/src/vrc/src/`. The `sample.py` script shows how to process the data from all the different sensors on the robot.
 
 The launch files are used to start different nodes at the same time, they are stored in `~/catkin_ws/src/vrc/launch/`, think of them as shortcuts.
 
@@ -135,7 +139,7 @@ To goal is to follow a line. Very basic approach, however one can always optimiz
    $ roslaunch vrc arena.launch
    ```
 
-6. Finally in a fourth terminal launch the line follower program
+6. Finally in a fourth terminal run the line follower program
 
    ```
    $ rosrun vrc line_follower.py
@@ -169,7 +173,7 @@ And launch the mapping scene with:
     $ roslaunch vrc mapping.launch
     $ rosrun vrc explorer.py
 
-The launch file runs the `gmapping` and the RVIZ visualisation nodes. Accessible areas are marked in white and inaccessbile areas are marked in black.
+The launch file runs the `gmapping` and the RVIZ visualization nodes. Accessible areas are marked in white and inaccessible areas are marked in black.
 
 The `explorer` node makes the robot go around the arena and avoid obstacles, whenever it encounters an obstacle it will turn on itself for a random amount of time and continue.
 
